@@ -10,6 +10,9 @@ extern gotoblas_t gotoblas_Z13;
 #ifdef DYN_Z14
 extern gotoblas_t gotoblas_Z14;
 #endif
+#ifdef DYN_Z15
+extern gotoblas_t gotoblas_Z15;
+#endif
 
 #define NUM_CORETYPES 4
 
@@ -23,10 +26,17 @@ char* gotoblas_corename(void) {
 #ifdef DYN_Z14
 	if (gotoblas == &gotoblas_Z14)	return cpuname[CPU_Z14];
 #endif
+#ifdef DYN_Z15
+	if (gotoblas == &gotoblas_Z15)	return cpuname[CPU_Z15];
+#endif
 	if (gotoblas == &gotoblas_ZARCH_GENERIC) return cpuname[CPU_GENERIC];
 
 	return "unknown";
 }
+
+#ifndef HWCAP_S390_VXRS_EXT2
+#define HWCAP_S390_VXRS_EXT2 32768
+#endif
 
 #ifndef HWCAP_S390_VXE
 #define HWCAP_S390_VXE 8192
@@ -47,6 +57,11 @@ static gotoblas_t* get_coretype(void) {
 	switch(cpu) {
 	// z14 and z15 systems: exploit Vector Facility (SIMD) and
 	// Vector-Enhancements Facility 1 (float SIMD instructions), if present.
+	case CPU_Z15:
+#ifdef DYN_Z15
+		return &gotoblas_Z15;
+#endif
+
 	case CPU_Z14:
 #ifdef DYN_Z14
 		return &gotoblas_Z14;
@@ -93,6 +108,13 @@ static gotoblas_t* force_coretype(char* coretype) {
 		return &gotoblas_Z14;
 #else
 		openblas_warning(1, "Z14 support not compiled in");
+		return NULL;
+#endif
+	} else if (found == CPU_Z15) {
+#ifdef DYN_Z15
+		return &gotoblas_Z15;
+#else
+		openblas_warning(1, "Z15 support not compiled in");
 		return NULL;
 #endif
 	} else if (found == CPU_GENERIC) {

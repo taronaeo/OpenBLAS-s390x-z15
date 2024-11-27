@@ -90,6 +90,9 @@ static int detect(void)
 	// LD_SHOW_AUXV=1 /bin/true).
 	// Also, the init function for dynamic arch support will print hwcaps
 	// when OPENBLAS_VERBOSE is set to 2 or higher.
+	if ((hwcap & HWCAP_S390_VX) && (hwcap & HWCAP_S390_VXE) && (hwcap & HWCAP_S390_VXRS_EXT2))
+		return CPU_Z15;
+
 	if ((hwcap & HWCAP_S390_VX) && (hwcap & HWCAP_S390_VXE))
 		return CPU_Z14;
 
