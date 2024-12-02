@@ -13,9 +13,9 @@ met:
       notice, this list of conditions and the following disclaimer in
       the documentation and/or other materials provided with the
       distribution.
-   3. Neither the name of the OpenBLAS project nor the names of 
-      its contributors may be used to endorse or promote products 
-      derived from this software without specific prior written 
+   3. Neither the name of the OpenBLAS project nor the names of
+      its contributors may be used to endorse or promote products
+      derived from this software without specific prior written
       permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -318,7 +318,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FORCE
 #define FORCE_INTEL
 #define ARCHITECTURE    "X86"
-#ifdef NO_AVX 
+#ifdef NO_AVX
 #define SUBARCHITECTURE "NEHALEM"
 #define ARCHCONFIG   "-DNEHALEM " \
 		     "-DL1_DATA_SIZE=32768 -DL1_DATA_LINESIZE=64 " \
@@ -809,7 +809,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CORENAME  "POWER6"
 #endif
 
-#if defined(FORCE_POWER8) 
+#if defined(FORCE_POWER8)
 #define FORCE
 #define ARCHITECTURE    "POWER"
 #define SUBARCHITECTURE "POWER8"
@@ -822,7 +822,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CORENAME  "POWER8"
 #endif
 
-#if defined(FORCE_POWER9) 
+#if defined(FORCE_POWER9)
 #define FORCE
 #define ARCHITECTURE    "POWER"
 #define SUBARCHITECTURE "POWER9"
@@ -1062,7 +1062,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ARCHCONFIG   "-DI6400 " \
        "-DL1_DATA_SIZE=65536 -DL1_DATA_LINESIZE=32 " \
        "-DL2_SIZE=1048576 -DL2_LINESIZE=32 " \
-       "-DDTB_DEFAULT_ENTRIES=64 -DDTB_SIZE=4096 -DL2_ASSOCIATIVE=8 -DHAVE_MSA " 
+       "-DDTB_DEFAULT_ENTRIES=64 -DDTB_SIZE=4096 -DL2_ASSOCIATIVE=8 -DHAVE_MSA "
 #define LIBNAME   "i6400"
 #define CORENAME  "I6400"
 #else
@@ -1671,6 +1671,22 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CORENAME  "Z14"
 #endif
 
+#ifdef FORCE_Z15
+#define FORCE
+#define ARCHITECTURE    "ZARCH"
+#define SUBARCHITECTURE "Z15"
+#define ARCHCONFIG   "-DZ15 " \
+       "-DL1_DATA_SIZE=131072 -DL1_DATA_LINESIZE=256 " \
+       "-DL2_SIZE=4194304 -DL2_LINESIZE=256 " \
+       "-DL3_SIZE=268435456 -DL3_LINESIZE=256 " \
+       "-DL4_SIZE=1006632960 -DL4_LINESIZE=256 " \
+       "-DL1_DATA_ASSOCIATIVE=8 -DL2_ASSOCIATIVE=8 " \
+       "-DL3_ASSOCIATIVE=32 -DL4_ASSOCIATIVE=60 " \
+       "-DDTB_DEFAULT_ENTRIES=64 DTB_SIZE=4096 "
+#define LIBNAME   "z15"
+#define CORENAME  "Z15"
+#endif
+
 #ifdef FORCE_EV4
 #define FORCE
 #define ARCHITECTURE    "ALPHA"
@@ -1905,7 +1921,7 @@ static int get_num_cores(void) {
   count = sysconf(_SC_NPROCESSORS_CONF);
   if (count <= 0) count = 2;
   return count;
-  
+
 #elif defined(OS_WINDOWS)
 
   GetSystemInfo(&sysinfo);
@@ -1917,7 +1933,7 @@ static int get_num_cores(void) {
   len = sizeof(int);
   sysctl(m, 2, &count, &len, NULL, 0);
   if (count <= 0) count = 2;
-  
+
   return count;
 
 #elif defined(_AIX)
@@ -1963,7 +1979,7 @@ int main(int argc, char *argv[]){
 
     printf("NUM_CORES=%d\n", get_num_cores());
 
-#if defined(__arm__) 
+#if defined(__arm__)
 #if !defined(FORCE)
     fprintf(stderr,"get features!\n");
         get_features();
