@@ -4014,6 +4014,9 @@ Until then, just keep it different than DGEMM_DEFAULT_UNROLL_N to keep copy rout
 #define CGEMM_DEFAULT_R 4096
 #define ZGEMM_DEFAULT_R 2048
 
+#define SYMV_P	16
+#endif
+
 #if defined(Z16)
 #define SNUMOPT		2
 #define DNUMOPT		2
