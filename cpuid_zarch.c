@@ -99,5 +99,16 @@ void get_cpuconfig(void)
 	  printf("#define DTB_DEFAULT_ENTRIES 64\n");
 	  printf("#define DTB_SIZE 4096\n");
 	  break;
+	case CPU_Z16:
+	  printf("#define Z16\n");
+	  printf("#define L1_DATA_SIZE 131072\n");		// L1 Cache 128KB
+	  printf("#define L1_DATA_LINESIZE 256\n");
+	  printf("#define L1_DATA_ASSOCIATIVE 8\n");
+	  printf("#define L2_SIZE 33554432\n");				// L2 Cache 32MB
+	  printf("#define L2_LINESIZE 256\n");
+	  printf("#define L2_ASSOCIATIVE 16\n");
+	  printf("#define DTB_DEFAULT_ENTRIES 64\n");
+	  printf("#define DTB_SIZE 4096\n");
+	  break;
 	}
 }

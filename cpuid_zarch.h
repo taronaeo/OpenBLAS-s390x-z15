@@ -4,19 +4,22 @@
 #define CPU_Z13         1
 #define CPU_Z14         2
 #define CPU_Z15         3
+#define CPU_Z16					4
 
 static char *cpuname[] = {
   "ZARCH_GENERIC",
   "Z13",
   "Z14",
-  "Z15"
+  "Z15",
+	"Z16"
 };
 
 static char *cpuname_lower[] = {
   "zarch_generic",
   "z13",
   "z14",
-  "z15"
+  "z15",
+	"z16"
 };
 
 // Guard the use of getauxval() on glibc version >= 2.16
@@ -90,6 +93,9 @@ static int detect(void)
 	// LD_SHOW_AUXV=1 /bin/true).
 	// Also, the init function for dynamic arch support will print hwcaps
 	// when OPENBLAS_VERBOSE is set to 2 or higher.
+	if ((hwcap & HWCAP_S390_NNPA))
+		return CPU_Z16;
+
 	if ((hwcap & HWCAP_S390_VX) && (hwcap & HWCAP_S390_VXE) && (hwcap & HWCAP_S390_VXRS_EXT2))
 		return CPU_Z15;
 

@@ -14,6 +14,11 @@ CCOMMON_OPT += -march=z15 -mtune=z15 -mzvector -O3
 FCOMMON_OPT += -march=z15 -mtune=z15 -mzvector
 endif
 
+ifeq ($(CORE), Z16)
+CCOMMON_OPT += -march=z16 -mtune=z16 -mzvector -O3
+FCOMMON_OPT += -march=z16 -mtune=z16 -mzvector
+endif
+
 # Enable floating-point expression contraction for clang, since it is the
 # default for gcc
 ifeq ($(C_COMPILER), CLANG)

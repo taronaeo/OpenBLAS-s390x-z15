@@ -13,6 +13,9 @@ extern gotoblas_t gotoblas_Z14;
 #ifdef DYN_Z15
 extern gotoblas_t gotoblas_Z15;
 #endif
+#ifdef DYN_Z16
+extern gotoblas_t gotoblas_Z16;
+#endif
 
 #define NUM_CORETYPES 4
 
@@ -29,13 +32,21 @@ char* gotoblas_corename(void) {
 #ifdef DYN_Z15
 	if (gotoblas == &gotoblas_Z15)	return cpuname[CPU_Z15];
 #endif
+#ifdef DYN_Z16
+	if (gotoblas == &gotoblas_Z16)  return cpuname[CPU_Z16];
+#endif
 	if (gotoblas == &gotoblas_ZARCH_GENERIC) return cpuname[CPU_GENERIC];
 
 	return "unknown";
 }
 
+// Find HWCAP numbers in arch/s390/include/asm/elf.h
+#ifndef HWCAP_S390_NNPA
+#define HWCAP_S390_NNPA 1 << 20
+#endif
+
 #ifndef HWCAP_S390_VXRS_EXT2
-#define HWCAP_S390_VXRS_EXT2 32768
+#define HWCAP_S390_VXRS_EXT2 1 << 15
 #endif
 
 #ifndef HWCAP_S390_VXE
@@ -57,6 +68,11 @@ static gotoblas_t* get_coretype(void) {
 	switch(cpu) {
 	// z14 and z15 systems: exploit Vector Facility (SIMD) and
 	// Vector-Enhancements Facility 1 (float SIMD instructions), if present.
+	case CPU_Z16:
+#ifdef DYN_Z16
+		return &gotoblas_Z16;
+#endif
+
 	case CPU_Z15:
 #ifdef DYN_Z15
 		return &gotoblas_Z15;
@@ -115,6 +131,13 @@ static gotoblas_t* force_coretype(char* coretype) {
 		return &gotoblas_Z15;
 #else
 		openblas_warning(1, "Z15 support not compiled in");
+		return NULL;
+#endif
+	} else if (found == CPU_Z16) {
+#ifdef DYN_Z16
+		return &gotoblas_Z16;
+#else
+		openblas_warning(1, "Z16 support not compiled in");
 		return NULL;
 #endif
 	} else if (found == CPU_GENERIC) {
