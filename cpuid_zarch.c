@@ -107,6 +107,9 @@ void get_cpuconfig(void)
 	  printf("#define L2_SIZE 33554432\n");				// L2 Cache 32MB
 	  printf("#define L2_LINESIZE 256\n");
 	  printf("#define L2_ASSOCIATIVE 16\n");
+	  printf("#define L3_SIZE 234881024\n");			// L3 Cache 224MB
+	  printf("#define L3_LINESIZE 256\n");
+	  printf("#define L3_ASSOCIATIVE 128\n");
 	  printf("#define DTB_DEFAULT_ENTRIES 64\n");
 	  printf("#define DTB_SIZE 4096\n");
 	  break;
